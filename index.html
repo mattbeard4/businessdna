@@ -185,6 +185,224 @@
     line-height: 1.5;
   }
 
+  /* ── SETUP GUIDE ── */
+  .setup-guide {
+    margin: 0 0 48px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    animation: fadeDown 0.6s ease 0.35s both;
+  }
+
+  .setup-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    background: var(--surface);
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.2s;
+    text-align: left;
+  }
+
+  .setup-toggle:hover { background: var(--surface-2); }
+
+  .setup-toggle-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .setup-toggle h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .setup-toggle .req-badge {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 3px 10px;
+    background: rgba(255, 107, 53, 0.12);
+    color: var(--accent);
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+  }
+
+  .setup-chevron {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text-dim);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .setup-guide.open .setup-chevron {
+    transform: rotate(180deg);
+  }
+
+  .setup-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .setup-guide.open .setup-body {
+    max-height: 3000px;
+  }
+
+  .setup-content {
+    padding: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .setup-note {
+    background: rgba(255, 107, 53, 0.06);
+    border: 1px solid rgba(255, 107, 53, 0.2);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  .setup-note strong {
+    color: var(--accent);
+  }
+
+  .setup-paths {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  @media (max-width: 700px) {
+    .setup-paths { grid-template-columns: 1fr; }
+  }
+
+  .path-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    position: relative;
+  }
+
+  .path-card.recommended {
+    border-color: var(--green);
+  }
+
+  .path-card.recommended::before {
+    content: 'START HERE';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 2px 10px;
+    background: var(--green);
+    color: white;
+    border-radius: 100px;
+  }
+
+  .path-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .path-card h4 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .path-card .path-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .path-card .path-cost {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--yellow);
+    margin-bottom: 16px;
+    padding: 4px 12px;
+    background: rgba(234, 179, 8, 0.08);
+    border-radius: 100px;
+  }
+
+  .setup-steps {
+    list-style: none;
+    counter-reset: step;
+  }
+
+  .setup-steps li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 32px;
+    margin-bottom: 12px;
+    font-size: 13.5px;
+    color: var(--text-dim);
+    line-height: 1.55;
+  }
+
+  .setup-steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 22px;
+    height: 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .setup-steps li strong {
+    color: var(--text);
+  }
+
+  .setup-steps code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: var(--green);
+  }
+
+  .setup-steps .sub-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 2px;
+  }
+
   /* ── PROGRESS BAR ── */
   .progress-wrap {
     position: sticky;
@@ -759,6 +977,68 @@
       <div class="step-num">03</div>
       <h3>Feed Your AI</h3>
       <p>Drop it into Claude Code, ChatGPT, or any AI tool. Now it knows everything.</p>
+    </div>
+  </div>
+
+  <!-- SETUP GUIDE (Collapsible) -->
+  <div class="setup-guide" id="setupGuide">
+    <button class="setup-toggle" onclick="document.getElementById('setupGuide').classList.toggle('open')">
+      <div class="setup-toggle-left">
+        <span>📋</span>
+        <h3>Setup Guide — How to Use Your Business DNA</h3>
+        <span class="req-badge">Read First</span>
+      </div>
+      <svg class="setup-chevron" viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="setup-body">
+      <div class="setup-content">
+
+        <div class="setup-note">
+          <strong>⚠️ Requires Claude Pro ($20/mo minimum).</strong> The free tier of Claude does not support Projects or Claude Code. You need at least the Pro plan to upload your Business DNA and have Claude remember it across conversations. Think of it this way — a single virtual assistant costs $800-1,500/mo. This gives you an AI that knows your entire business for $20.
+          <br><br>
+          Sign up or upgrade at <strong>claude.ai</strong> → Settings → Subscription.
+        </div>
+
+        <div class="setup-paths">
+
+          <!-- PATH 1 -->
+          <div class="path-card recommended">
+            <div class="path-label">Path 1 — For Everyone</div>
+            <h4>Claude.ai Projects</h4>
+            <p class="path-desc">No setup, no code. Takes 60 seconds. Claude will have full context on your business in every conversation inside the project.</p>
+            <div class="path-cost">💳 Claude Pro — $20/mo</div>
+            <ol class="setup-steps">
+              <li>Go to <strong>claude.ai</strong> and log in</li>
+              <li>Click <strong>"Projects"</strong> in the left sidebar</li>
+              <li>Click <strong>"Create Project"</strong> → name it <strong>"My Business Brain"</strong></li>
+              <li>In the project, click <strong>"Add project knowledge"</strong></li>
+              <li><strong>Upload your Business DNA .md file</strong> (the one you'll generate below)</li>
+              <li>Start a new conversation inside the project — <strong>Claude now knows everything about your business</strong></li>
+            </ol>
+            <p class="setup-steps sub-note">Every chat you start inside this project will automatically have your Business DNA loaded. Ask it to write emails, create content, analyze deals, build systems — all tailored to YOUR business.</p>
+          </div>
+
+          <!-- PATH 2 -->
+          <div class="path-card">
+            <div class="path-label">Path 2 — Power Users</div>
+            <h4>Claude Code (Terminal)</h4>
+            <p class="path-desc">For building persistent AI skills, cron jobs, and automation. This is how you create an AI employee that runs tasks on autopilot.</p>
+            <div class="path-cost">💳 Claude Pro — $20/mo minimum</div>
+            <ol class="setup-steps">
+              <li>Open <strong>Terminal</strong> (Mac: Cmd+Space → type "Terminal") </li>
+              <li>Run: <code>curl -fsSL https://claude.ai/install.sh | bash</code></li>
+              <li><strong>Close and reopen Terminal</strong> (required for install to take effect)</li>
+              <li>Type <code>claude</code> → it will open a browser to <strong>log in with your Claude account</strong></li>
+              <li>Navigate to your project folder: <code>cd ~/my-business</code></li>
+              <li><strong>Save your Business DNA file as <code>CLAUDE.md</code></strong> in that folder</li>
+              <li>Type <code>claude</code> again — it automatically reads CLAUDE.md and has full context</li>
+            </ol>
+            <p class="setup-steps sub-note">Windows users: You'll need WSL (Windows Subsystem for Linux) or Git for Windows first. Mac and Linux users can follow the steps above directly. See docs.claude.com for detailed Windows instructions.</p>
+          </div>
+
+        </div>
+
+      </div>
     </div>
   </div>
 
