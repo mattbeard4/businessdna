@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business DNA — Your AI Blueprint</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #08090a;
+    --surface: #111214;
+    --surface-2: #1a1c1f;
+    --surface-3: #222528;
+    --border: #2a2d31;
+    --border-focus: #ff6b35;
+    --text: #f0f0f0;
+    --text-dim: #888c93;
+    --text-muted: #555961;
+    --accent: #ff6b35;
+    --accent-glow: rgba(255, 107, 53, 0.15);
+    --green: #22c55e;
+    --green-glow: rgba(34, 197, 94, 0.12);
+    --red: #ef4444;
+    --blue: #3b82f6;
+    --purple: #a855f7;
+    --yellow: #eab308;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--surface-3) var(--bg);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 40px 24px 120px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 60px 0 50px;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 400px;
+    background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse-dot 2s ease infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(42px, 6vw, 64px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    animation: fadeDown 0.6s ease 0.1s both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero p {
+    font-size: 17px;
+    color: var(--text-dim);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.7;
+    animation: fadeDown 0.6s ease 0.2s both;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-it-works {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 0 0 60px;
+    animation: fadeDown 0.6s ease 0.3s both;
+  }
+
+  .step-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    text-align: center;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+
+  .step-card:hover {
+    border-color: var(--accent);
+  }
+
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+    opacity: 0.3;
+    margin-bottom: 8px;
+  }
+
+  .step-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+
+  .step-card p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8, 9, 10, 0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+    transition: box-shadow 0.3s;
+  }
+
+  .progress-wrap.scrolled {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .progress-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .progress-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--surface-2);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #ff9a6c);
+    border-radius: 100px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  .progress-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 48px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .section-icon.orange { background: var(--accent-glow); }
+  .section-icon.green { background: var(--green-glow); }
+  .section-icon.blue { background: rgba(59, 130, 246, 0.12); }
+  .section-icon.purple { background: rgba(168, 85, 247, 0.12); }
+  .section-icon.yellow { background: rgba(234, 179, 8, 0.12); }
+  .section-icon.red { background: rgba(239, 68, 68, 0.12); }
+
+  .section-header h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .section-header span {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* ── FORM FIELDS ── */
+  .field {
+    margin-bottom: 20px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+
+  .field .hint {
+    display: block;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .field input,
+  .field textarea,
+  .field select {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  .field textarea {
+    min-height: 100px;
+    resize: vertical;
+    line-height: 1.6;
+  }
+
+  .field textarea.tall {
+    min-height: 140px;
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  /* Field row for side-by-side */
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* ── CHECKLIST FIELDS ── */
+  .checklist {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    user-select: none;
+  }
+
+  .check-item:hover {
+    border-color: var(--text-muted);
+  }
+
+  .check-item.active {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .check-item input { display: none; }
+
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .check-item.active .check-box {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .check-box svg {
+    width: 12px;
+    height: 12px;
+    stroke: white;
+    stroke-width: 3;
+    fill: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .check-item.active .check-box svg { opacity: 1; }
+
+  .check-label {
+    font-size: 13px;
+    color: var(--text-dim);
+    transition: color 0.2s;
+  }
+
+  .check-item.active .check-label { color: var(--text); }
+
+  /* ── REPEATER (Add more items) ── */
+  .repeater-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .repeater-item {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .repeater-item input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .repeater-item input:focus {
+    border-color: var(--accent);
+  }
+
+  .btn-remove {
+    width: 36px;
+    height: 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .btn-remove:hover {
+    border-color: var(--red);
+    color: var(--red);
+    background: rgba(239, 68, 68, 0.08);
+  }
+
+  .btn-add {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-add:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ── GENERATE BUTTON ── */
+  .generate-section {
+    text-align: center;
+    padding: 48px 0;
+    border-top: 1px solid var(--border);
+    margin-top: 48px;
+  }
+
+  .generate-section h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 32px;
+    font-weight: 400;
+    margin-bottom: 12px;
+  }
+
+  .generate-section p {
+    color: var(--text-dim);
+    font-size: 15px;
+    margin-bottom: 32px;
+  }
+
+  .btn-generate {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 40px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 0.02em;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-generate::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+  }
+
+  .btn-generate:hover::before {
+    transform: translateX(100%);
+  }
+
+  .btn-generate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(255, 107, 53, 0.3);
+  }
+
+  .btn-generate:active {
+    transform: translateY(0);
+  }
+
+  /* ── OUTPUT MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .modal-overlay.show {
+    display: flex;
+  }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 760px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    animation: modalIn 0.3s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .modal-header h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn-copy, .btn-download, .btn-close-modal {
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid var(--border);
+  }
+
+  .btn-copy {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .btn-copy:hover { box-shadow: 0 4px 16px rgba(255,107,53,0.3); }
+
+  .btn-download {
+    background: var(--green);
+    color: white;
+    border-color: var(--green);
+  }
+
+  .btn-download:hover { box-shadow: 0 4px 16px rgba(34,197,94,0.3); }
+
+  .btn-close-modal {
+    background: var(--surface-2);
+    color: var(--text-dim);
+  }
+
+  .btn-close-modal:hover {
+    color: var(--text);
+    border-color: var(--text-muted);
+  }
+
+  .modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+  }
+
+  .modal-body pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--text-dim);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--green);
+    color: white;
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 14px;
+    z-index: 2000;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+    margin-top: 24px;
+  }
+
+  .footer p {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .how-it-works { grid-template-columns: 1fr; }
+    .field-row { grid-template-columns: 1fr; }
+    .checklist { grid-template-columns: 1fr; }
+    .modal-actions { flex-wrap: wrap; }
+    .container { padding: 24px 16px 100px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="badge">Free Tool — No Fluff Real Estate</div>
+    <h1>Business <em>DNA</em></h1>
+    <p>Fill this out once. Give it to your AI. Every skill, every automation, every decision it makes will be tailored to <strong>your</strong> business — not some generic template.</p>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="how-it-works">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <h3>Fill It Out</h3>
+      <p>Answer the questions about your business — be specific, be honest.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <h3>Generate</h3>
+      <p>Hit the button. Get a ready-to-use markdown file of your Business DNA.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <h3>Feed Your AI</h3>
+      <p>Drop it into Claude Code, ChatGPT, or any AI tool. Now it knows everything.</p>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-inner">
+      <span class="progress-label">PROGRESS</span>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <span class="progress-pct" id="progressPct">0%</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 1: THE BUSINESS -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="section" id="sec1">
+    <div class="section-header">
+      <div class="section-icon orange">⚙️</div>
+      <div>
+        <h2>01 — The Business</h2>
+        <span>What it is, what it does, how it makes money</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Business Name</label>
+      <span class="hint">The name your customers know you by</span>
+      <input type="text" id="biz_name" placeholder="e.g. Apex Roofing Solutions">
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Industry</label>
+        <input type="text" id="biz_industry" placeholder="e.g. Real estate, SaaS, Home services">
+      </div>
+      <div class="field">
+        <label>Business Model</label>
+        <input type="text" id="biz_model" placeholder="e.g. Service-based, E-commerce, High-ticket coaching">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>What does your business actually do?</label>
+      <span class="hint">Explain it like you're telling a friend at a BBQ. What do you sell, who buys it, and how does money come in the door?</span>
+      <textarea id="biz_what" class="tall" placeholder="We help [who] do [what] by [how]. Our main offer is [X] at [price point]. We make money through [revenue streams]."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Revenue Streams</label>
+      <span class="hint">List every way money comes in — products, services, subscriptions, referrals, etc.</span>
+      <textarea id="biz_revenue" placeholder="1. Main product/service — $X&#10;2. Recurring subscription — $X/mo&#10;3. Upsell/add-on — $X"></textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Annual Revenue (approximate)</label>
+        <input type="text" id="biz_annual" placeholder="e.g. $500K, $2M, just starting">
+      </div>
+      <div class="field">
+        <label>Monthly Overhead</label>
+        <input type="text" id="biz_overhead" placeholder="e.g. $15,000/mo">
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 2: THE MAKER -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="section" id="sec2">
+    <div class="section-header">
+      <div class="section-icon green">🧠</div>
+      <div>
+        <h2>02 — The Maker</h2>
+        <span>Your story, credibility, and unfair advantage</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Your Name</label>
+      <input type="text" id="maker_name" placeholder="First and last name">
+    </div>
+
+    <div class="field">
+      <label>Your Story (the short version)</label>
+      <span class="hint">How did you get here? What's the journey from where you started to where you are now? Include the turning points.</span>
+      <textarea id="maker_story" class="tall" placeholder="I started [when/how]. The turning point was [event]. Now I [what you do] and I've [biggest accomplishment]."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Credibility — Why should anyone listen to you?</label>
+      <span class="hint">List your proof: years of experience, results achieved, revenue numbers, notable clients, certifications, media features, whatever makes you legit.</span>
+      <textarea id="maker_cred" class="tall" placeholder="- X years in [industry]&#10;- [specific result or achievement]&#10;- [revenue milestone]&#10;- [notable clients/partnerships]&#10;- [certifications or recognition]"></textarea>
+    </div>
+
+    <div class="field">
+      <label>What makes you different?</label>
+      <span class="hint">Your unfair advantage. What do you do that competitors don't, won't, or can't? What's the intersection of skills that makes you unique?</span>
+      <textarea id="maker_edge" placeholder="Most people in my space do [X]. I do [Y] because [reason]. My unique angle is the combination of [skill 1] + [skill 2] + [skill 3]."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Core Belief</label>
+      <span class="hint">The one sentence that drives everything you do. What's the hill you'll die on?</span>
+      <input type="text" id="maker_belief" placeholder="e.g. You don't need a big team to build a big business — you need the right systems.">
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 3: YOUR AUDIENCE -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="section" id="sec3">
+    <div class="section-header">
+      <div class="section-icon blue">🎯</div>
+      <div>
+        <h2>03 — Your Audience</h2>
+        <span>Who you serve, what keeps them up at night</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Who is your ideal customer?</label>
+      <span class="hint">Be specific. Age range, gender, experience level, income, location — paint the picture.</span>
+      <textarea id="aud_who" placeholder="My ideal customer is a [age range] [gender/any] [profession/situation] who [current situation]. They typically [income level / experience level]."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Top 3 Problems You Solve</label>
+      <span class="hint">The specific pain points that make people pull out their wallet. Not features — problems.</span>
+      <textarea id="aud_problems" class="tall" placeholder="1. [Problem] — They're struggling with [specific frustration]. The cost of NOT solving this is [consequence].&#10;&#10;2. [Problem] — They've tried [alternatives] and it hasn't worked because [reason].&#10;&#10;3. [Problem] — They need [outcome] but don't know how to get there."></textarea>
+    </div>
+
+    <div class="field">
+      <label>How sophisticated is your audience?</label>
+      <span class="hint">Do they know the jargon? Have they tried competitors? Are they beginners or experienced?</span>
+      <textarea id="aud_awareness" placeholder="Mostly [beginners/intermediate/advanced]. They've typically tried [X] before finding me. They know about [common terms/methods] but don't know about [your unique approach]."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Where do they hang out online?</label>
+      <span class="hint">Platforms, communities, influencers they follow, podcasts they listen to.</span>
+      <textarea id="aud_channels" placeholder="YouTube, Instagram, TikTok, specific subreddits, Facebook groups, podcasts, etc."></textarea>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 4: PRODUCTS & PROCESS -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="section" id="sec4">
+    <div class="section-header">
+      <div class="section-icon purple">📦</div>
+      <div>
+        <h2>04 — Products & Process</h2>
+        <span>What you sell and how the business actually works</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Core Offer</label>
+      <span class="hint">Your main product or service — the thing that drives most of your revenue. Include pricing.</span>
+      <textarea id="prod_core" placeholder="[Product/service name] — $[price]&#10;What it includes: [deliverables]&#10;Timeline: [how long it takes]&#10;Result they can expect: [specific outcome]"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Other Offers (if any)</label>
+      <span class="hint">Upsells, downsells, subscriptions, add-ons, free tiers — anything beyond the core.</span>
+      <textarea id="prod_other" placeholder="- [Offer 2] — $[price] — [what it is]&#10;- [Offer 3] — $[price]/mo — [what it is]&#10;- [Free lead magnet] — [what it is]"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Customer Journey — How does someone go from stranger to paying customer?</label>
+      <span class="hint">Walk through every step: where they find you, what they see, how they decide to buy, and what happens after they pay.</span>
+      <textarea id="prod_journey" class="tall" placeholder="Discovery → They find me through [channel]&#10;Education → They see [content type / proof]&#10;Trust → They [action that builds trust]&#10;Purchase → They [how they buy — call, page, cart, etc.]&#10;Delivery → After payment, they get [onboarding experience]"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Your Framework or Method</label>
+      <span class="hint">If you have a proprietary process, framework, or method — describe it. Steps, phases, or principles you follow and teach.</span>
+      <textarea id="prod_framework" placeholder="My [framework name] has [X] steps:&#10;1. [Step] — [what happens]&#10;2. [Step] — [what happens]&#10;3. [Step] — [what happens]"></textarea>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 5: TECH & TOOLS -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="section" id="sec5">
+    <div class="section-header">
+      <div class="section-icon yellow">🛠</div>
+      <div>
+        <h2>05 — Tech Stack & Tools</h2>
+        <span>What you use to run the business</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Current Tools & Software</label>
+      <span class="hint">List every tool you use — CRM, email, payments, design, project management, analytics, everything. Include what you use each one for.</span>
+      <textarea id="tech_tools" class="tall" placeholder="- [Tool] — [what I use it for]&#10;- [Tool] — [what I use it for]&#10;- [Tool] — [what I use it for]&#10;- [Tool] — [what I use it for]"></textarea>
+    </div>
+
+    <div class="field">
+      <label>What's broken or missing?</label>
+      <span class="hint">What tools frustrate you? What processes are still manual? What falls through the cracks?</span>
+      <textarea id="tech_broken" placeholder="Things that still take too long, tools that don't talk to each other, manual processes that need automation..."></textarea>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 6: TEAM -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="section" id="sec6">
+    <div class="section-header">
+      <div class="section-icon green">👥</div>
+      <div>
+        <h2>06 — Your Team</h2>
+        <span>Who else is involved in the business</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Team Members</label>
+      <span class="hint">List everyone who works in or on the business — employees, contractors, VAs, partners. Include their role and what they're responsible for.</span>
+      <textarea id="team_members" class="tall" placeholder="- [Name] — [Role] — [What they do]&#10;- [Name] — [Role] — [What they do]&#10;- Just me (solo)"></textarea>
+    </div>
+
+    <div class="field">
+      <label>What do YOU spend most of your time on?</label>
+      <span class="hint">Be honest. Where do your hours go each day? What tasks eat up your time?</span>
+      <textarea id="team_yourtime" placeholder="My daily tasks usually include: [list the 5-7 things you do most]. I spend the most time on [biggest time sinks]."></textarea>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 7: BRAND & VOICE -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="section" id="sec7">
+    <div class="section-header">
+      <div class="section-icon red">🎨</div>
+      <div>
+        <h2>07 — Brand & Voice</h2>
+        <span>How you communicate and present yourself</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Brand Personality</label>
+      <span class="hint">Pick 3-5 words that describe your brand's tone. How should your business "feel" to customers?</span>
+      <div class="checklist" id="brandPersonality">
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Direct / No-BS"><div class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-label">Direct / No-BS</span></label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Friendly / Approachable"><div class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-label">Friendly / Approachable</span></label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Professional / Polished"><div class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-label">Professional / Polished</span></label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Edgy / Bold"><div class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-label">Edgy / Bold</span></label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Educational / Teacher"><div class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-label">Educational / Teacher</span></label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Inspirational / Motivational"><div class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-label">Inspirational / Motivational</span></label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Technical / Data-Driven"><div class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-label">Technical / Data-Driven</span></label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" value="Casual / Conversational"><div class="check-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="check-label">Casual / Conversational</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Communication Style</label>
+      <span class="hint">How do you naturally talk to your audience? What words or phrases do you always use? What do you avoid?</span>
+      <textarea id="brand_style" placeholder="I always say things like [phrases]. I avoid [things you never say]. My tone is [description]. I [do/don't] use profanity. I [do/don't] use emojis."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Proprietary Terms / Jargon</label>
+      <span class="hint">Any custom terminology, nicknames, or branded language your business uses. Define each one.</span>
+      <textarea id="brand_terms" placeholder="- [Term] = [what it means]&#10;- [Term] = [what it means]&#10;(e.g. Checkbooks = Buyers, Gatekeepers = Agents)"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Brand Colors (if you know them)</label>
+      <span class="hint">Hex codes or descriptions of your brand colors. Optional but helpful for AI-generated design.</span>
+      <input type="text" id="brand_colors" placeholder="e.g. #ff6b35 (orange), #0a0a0b (black), #22c55e (green)">
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 8: NUMBERS & GOALS -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="section" id="sec8">
+    <div class="section-header">
+      <div class="section-icon orange">📊</div>
+      <div>
+        <h2>08 — Numbers & Goals</h2>
+        <span>Where you are, where you're going</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Key Metrics You Track</label>
+      <span class="hint">What numbers matter most in your business? Revenue, leads, close rate, customer count, churn, LTV — whatever you check daily/weekly.</span>
+      <textarea id="num_metrics" placeholder="- [Metric] — currently at [value]&#10;- [Metric] — currently at [value]&#10;- [Metric] — currently at [value]"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Biggest Bottleneck Right Now</label>
+      <span class="hint">What's the #1 thing limiting your growth? Be brutally honest.</span>
+      <textarea id="num_bottleneck" placeholder="The biggest thing holding me back is [problem]. It's costing me [consequence] and I've tried [what you've tried] to fix it."></textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>12-Month Revenue Goal</label>
+        <input type="text" id="num_goal_rev" placeholder="e.g. $1M, $500K, $100K">
+      </div>
+      <div class="field">
+        <label>Dream Outcome (Big Picture)</label>
+        <input type="text" id="num_dream" placeholder="e.g. 4-hour work week, exit for $5M, 100 employees">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>What would change everything?</label>
+      <span class="hint">If you could wave a magic wand and fix ONE thing in your business, what would it be?</span>
+      <textarea id="num_magic" placeholder="If I could [one change], it would unlock [result] because [reason]."></textarea>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 9: AI DELEGATION MAP -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="section" id="sec9">
+    <div class="section-header">
+      <div class="section-icon purple">🤖</div>
+      <div>
+        <h2>09 — AI Delegation Map</h2>
+        <span>What your AI should and shouldn't do</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Top 5 Tasks You Want to Delegate to AI</label>
+      <span class="hint">What are the repetitive, time-consuming tasks you'd love to hand off? These become your first AI "skills."</span>
+      <textarea id="ai_tasks" class="tall" placeholder="1. [Task] — I currently spend [time] on this per [day/week]&#10;2. [Task] — I currently spend [time] on this per [day/week]&#10;3. [Task] — I currently spend [time] on this per [day/week]&#10;4. [Task] — I currently spend [time] on this per [day/week]&#10;5. [Task] — I currently spend [time] on this per [day/week]"></textarea>
+    </div>
+
+    <div class="field">
+      <label>What should AI NEVER do in your business?</label>
+      <span class="hint">Are there tasks, decisions, or communications that must stay human? Boundaries are important.</span>
+      <textarea id="ai_never" placeholder="AI should never [task/decision] because [reason]. I always want a human to handle [specific thing]."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Decisions You Make Repeatedly</label>
+      <span class="hint">What judgment calls do you make over and over? These are perfect for AI decision frameworks — teach it your criteria.</span>
+      <textarea id="ai_decisions" placeholder="I regularly decide whether to [decision type]. My criteria are [list criteria]. A good decision looks like [description]. A bad decision looks like [description]."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Content You Create Regularly</label>
+      <span class="hint">Social posts, emails, proposals, reports — anything you write/create on a recurring basis.</span>
+      <textarea id="ai_content" placeholder="- [Content type] — [frequency] — [platform/audience]&#10;- [Content type] — [frequency] — [platform/audience]"></textarea>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 10: ANYTHING ELSE -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="section" id="sec10">
+    <div class="section-header">
+      <div class="section-icon yellow">💡</div>
+      <div>
+        <h2>10 — Anything Else</h2>
+        <span>Context that didn't fit above</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Additional Context for AI</label>
+      <span class="hint">Anything else your AI should know — industry-specific rules, legal requirements, personal preferences, competitor info, seasonal patterns, whatever matters.</span>
+      <textarea id="extra_context" class="tall" placeholder="Other things AI should know about my business:&#10;&#10;- [anything relevant]&#10;- [industry rules or regulations]&#10;- [competitors to be aware of]&#10;- [seasonal patterns]&#10;- [personal work preferences]"></textarea>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- GENERATE SECTION -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="generate-section">
+    <h2>Ready to build your AI brain?</h2>
+    <p>Hit the button below to generate your Business DNA as a markdown file.<br>Copy it, save it, and drop it into Claude Code or any AI tool.</p>
+    <button class="btn-generate" onclick="generateMarkdown()">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Generate My Business DNA
+    </button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>Built by <a href="https://youtube.com/@iammattbeard" target="_blank">Matt Beard</a> — No Fluff Real Estate</p>
+    <p style="margin-top:6px;">Learn how to delegate to AI using the DORAGI framework → <a href="https://skool.com/nofluffrealestate" target="_blank">Join the free community</a></p>
+  </div>
+
+</div>
+
+<!-- OUTPUT MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>✅ Business DNA Generated</h3>
+      <div class="modal-actions">
+        <button class="btn-copy" onclick="copyToClipboard()">📋 Copy</button>
+        <button class="btn-download" onclick="downloadFile()">⬇ Download .md</button>
+        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <pre id="outputMarkdown"></pre>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Copied to clipboard!</div>
+
+<script>
+// ── CHECKBOX TOGGLE ──
+function toggleCheck(el) {
+  el.classList.toggle('active');
+  updateProgress();
+}
+
+// ── PROGRESS TRACKING ──
+function updateProgress() {
+  const fields = document.querySelectorAll('input[type="text"], textarea, select');
+  let filled = 0;
+  let total = fields.length;
+
+  fields.forEach(f => {
+    if (f.value.trim()) filled++;
+  });
+
+  // Count checklist selections
+  const checks = document.querySelectorAll('.check-item.active');
+  if (checks.length > 0) filled++;
+  total++; // add 1 for checklist section
+
+  const pct = Math.round((filled / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+
+// Listen to all inputs
+document.querySelectorAll('input, textarea').forEach(el => {
+  el.addEventListener('input', updateProgress);
+});
+
+// Sticky progress shadow
+window.addEventListener('scroll', () => {
+  const wrap = document.getElementById('progressWrap');
+  wrap.classList.toggle('scrolled', window.scrollY > 200);
+});
+
+// ── GENERATE MARKDOWN ──
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+function generateMarkdown() {
+  const brandChecks = [];
+  document.querySelectorAll('#brandPersonality .check-item.active').forEach(el => {
+    brandChecks.push(el.querySelector('input').value);
+  });
+
+  let md = `# Business DNA — ${val('biz_name') || 'My Business'}
+
+> This document is the single source of truth for my business. Any AI, agent, or system reading this should treat it as canonical. Use this context to inform every task, skill, decision, and piece of content you create for me.
+
+---
+
+## ⚙️ THE BUSINESS
+
+**Business Name:** ${val('biz_name')}
+**Industry:** ${val('biz_industry')}
+**Business Model:** ${val('biz_model')}
+
+### What We Do
+${val('biz_what') || '_Not provided_'}
+
+### Revenue Streams
+${val('biz_revenue') || '_Not provided_'}
+
+**Annual Revenue:** ${val('biz_annual') || '_Not provided_'}
+**Monthly Overhead:** ${val('biz_overhead') || '_Not provided_'}
+
+---
+
+## 🧠 THE MAKER
+
+**Name:** ${val('maker_name')}
+
+### My Story
+${val('maker_story') || '_Not provided_'}
+
+### Credibility
+${val('maker_cred') || '_Not provided_'}
+
+### What Makes Me Different
+${val('maker_edge') || '_Not provided_'}
+
+**Core Belief:** ${val('maker_belief') || '_Not provided_'}
+
+---
+
+## 🎯 AUDIENCE
+
+### Who I Serve
+${val('aud_who') || '_Not provided_'}
+
+### Problems I Solve
+${val('aud_problems') || '_Not provided_'}
+
+### Audience Awareness Level
+${val('aud_awareness') || '_Not provided_'}
+
+### Where They Hang Out
+${val('aud_channels') || '_Not provided_'}
+
+---
+
+## 📦 PRODUCTS & PROCESS
+
+### Core Offer
+${val('prod_core') || '_Not provided_'}
+
+### Other Offers
+${val('prod_other') || '_Not provided_'}
+
+### Customer Journey
+${val('prod_journey') || '_Not provided_'}
+
+### Framework / Method
+${val('prod_framework') || '_Not provided_'}
+
+---
+
+## 🛠 TECH STACK & TOOLS
+
+### Current Tools
+${val('tech_tools') || '_Not provided_'}
+
+### What's Broken or Missing
+${val('tech_broken') || '_Not provided_'}
+
+---
+
+## 👥 TEAM
+
+### Team Members
+${val('team_members') || '_Not provided_'}
+
+### Where My Time Goes
+${val('team_yourtime') || '_Not provided_'}
+
+---
+
+## 🎨 BRAND & VOICE
+
+**Brand Personality:** ${brandChecks.length > 0 ? brandChecks.join(', ') : '_Not selected_'}
+
+### Communication Style
+${val('brand_style') || '_Not provided_'}
+
+### Proprietary Terms
+${val('brand_terms') || '_Not provided_'}
+
+**Brand Colors:** ${val('brand_colors') || '_Not provided_'}
+
+---
+
+## 📊 NUMBERS & GOALS
+
+### Key Metrics
+${val('num_metrics') || '_Not provided_'}
+
+### Biggest Bottleneck
+${val('num_bottleneck') || '_Not provided_'}
+
+**12-Month Revenue Goal:** ${val('num_goal_rev') || '_Not provided_'}
+**Dream Outcome:** ${val('num_dream') || '_Not provided_'}
+
+### What Would Change Everything
+${val('num_magic') || '_Not provided_'}
+
+---
+
+## 🤖 AI DELEGATION MAP
+
+### Tasks to Delegate to AI
+${val('ai_tasks') || '_Not provided_'}
+
+### What AI Should NEVER Do
+${val('ai_never') || '_Not provided_'}
+
+### Recurring Decisions (Teach AI Your Criteria)
+${val('ai_decisions') || '_Not provided_'}
+
+### Content I Create Regularly
+${val('ai_content') || '_Not provided_'}
+
+---
+
+## 💡 ADDITIONAL CONTEXT
+
+${val('extra_context') || '_Not provided_'}
+
+---
+
+*Generated with the Business DNA Template by No Fluff Real Estate*
+*https://youtube.com/@iammattbeard*
+`;
+
+  document.getElementById('outputMarkdown').textContent = md;
+  document.getElementById('modal').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+}
+
+function copyToClipboard() {
+  const text = document.getElementById('outputMarkdown').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2200);
+  });
+}
+
+function downloadFile() {
+  const text = document.getElementById('outputMarkdown').textContent;
+  const blob = new Blob([text], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'BUSINESS-DNA.md';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Close modal on overlay click
+document.getElementById('modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Close modal on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+// Initial progress
+updateProgress();
+</script>
+</body>
+</html>
